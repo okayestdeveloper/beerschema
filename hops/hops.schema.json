@@ -1,0 +1,66 @@
+{
+    "$id": "https://api-menuviz.net/hops.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "BeerJSONModel",
+    "description": "A simple schema to describe a hop varietal",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "number"
+        },
+        "label": {
+            "type": "string"
+        },
+        "aka": {
+            "type": "array"
+        },
+        "countryOfOrigin": {
+            "type": "object",
+            "properties": {
+                "label": {
+                    "type": "string"
+                },
+                "twoChar": {
+                    "type": "string"
+                },
+                "threeChar": {
+                    "type": "string"
+                }
+            }
+        },
+        "description": {
+            "type": "string"
+        },
+        "form": {
+            "type": "string"
+        },
+        "cropYear": {
+            "type": "integer"
+        },
+        "alpha": {
+            "type": "number"
+        },
+        "beta": {
+            "type": "number"
+        },
+        "humulene": {
+            "type": "number"
+        },
+        "caryophyllene": {
+            "type": "number"
+        },
+        "myrcene": {
+            "type": "number"
+        },
+        "cohumulone": {
+            "type": "number"
+        },
+        "totalOil": {
+            "type": "number"
+        }
+    },
+    "required": [
+        "label",
+        "type"
+    ]
+}

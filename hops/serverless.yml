@@ -1,0 +1,112 @@
+service: 'beerschema-hops'
+
+type: beerschema-hops-api
+
+custom:
+  defaultRegion: us-east-1
+  tableName: beerschema-hops-table-${opt:stage}
+
+components:
+  beerJsonDb:
+    type: aws-dynamodb
+    inputs:
+      region: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
+      tables:
+        - name: ${self:custom.tableName}
+          hashKey: id
+          indexes:
+            - name: HopIdIndex
+              type: global
+              hashKey: id
+          schema:
+            id: number
+            label: string
+            aka: string
+            countryOfOrigin:
+                label: string
+                twoChar: string
+                threeChar: string
+            description: string
+          options:
+            timestamps: true
+  createHop:
+    type: aws-lambda
+    inputs:
+      memory: 512
+      timeout: 10
+      handler: handler.createHop
+      root: ./
+      env:
+        awsRegion: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
+        productTableName: ${self:custom.tableName}
+  listHops:
+    type: aws-lambda
+    inputs:
+      memory: 512
+      timeout: 10
+      handler: handler.listHops
+      root: ./
+      env:
+        awsRegion: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
+        productTableName: ${self:custom.tableName}
+  getHop:
+    type: aws-lambda
+    inputs:
+      memory: 512
+      timeout: 10
+      handler: handler.getHop
+      root: ./
+      env:
+        awsRegion: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
+        productTableName: ${self:custom.tableName}
+  updateHop:
+    type: aws-lambda
+    inputs:
+      memory: 512
+      timeout: 10
+      handler: handler.updateHop
+      root: ./
+      env:
+        awsRegion: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
+        productTableName: ${self:custom.tableName}
+  deleteHop:
+    type: aws-lambda
+    inputs:
+      memory: 512
+      timeout: 10
+      handler: handler.deleteHop
+      root: ./
+      env:
+        awsRegion: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
+        productTableName: ${self:custom.tableName}
+  hopsApi:
+    type: rest-api
+    inputs:
+      gateway: aws-apigateway
+      routes:
+        /hops:
+          post:
+            function: ${createHop}
+            cors: true
+          get:
+            function: ${listHops}
+          /{id}:
+            get:
+              function: ${getHop}
+              cors: true
+            put:
+              function: ${updateHop}
+              cors: true
+            delete:
+              function: ${deleteHop}
+              cors: true
+
+package:
+  exclude:
+    - .eslintignore
+    - .eslintrc
+    - .npmrc
+    - .gitignore
+    - jasmine.json
+    - LICENSE
+    - README.md
