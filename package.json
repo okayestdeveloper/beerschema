@@ -1,10 +1,9 @@
 {
     "name": "beerschema",
     "version": "0.1.0",
-    "description": "API gateway triggered lambda to CRUD hops in DynamoDB.",
-    "main": "handler.js",
+    "description": "An schema for defining necessary data about beer recipes, inventory, etcetera and the related API to interact with it.",
     "scripts": {
-        "deploy": "npx serverless deploy",
+        "deploy:hops": "cd hops && sls deploy",
         "lint": "./node_modules/.bin/eslint -c .eslintrc --fix ./"
     },
     "author": {
@@ -12,18 +11,10 @@
         "email": "brad.ledbetter@gmail.com"
     },
     "license": "UNLICENSED",
-    "devDependencies": {
-        "eslint": "^5.6.1",
-        "eslint-config-google": "^0.9.1",
-        "eslint-plugin-import": "^2.12.0",
-        "serverless-domain-manager": "^2.6.5"
-    },
-    "dependencies": {
-        "ajv": "^6.5.4",
-        "aws-sdk": "^2.247.1",
-        "traverse": "^0.6.6"
-    },
+    "keywords": [
+        "beerschema"
+    ],
     "engines": {
-        "node": ">=8.11.1"
+        "node": ">=8.10.1"
     }
 }

@@ -11,6 +11,7 @@
             "twoChar": "US",
             "threeChar": "USA"
         },
+        "description": "Citrus, grapefruit, lime, tropical fruits, harsh bitterness",
         "form": "T-90 pellet",
         "cropYear": 2017,
         "alpha": 0.125,
@@ -19,8 +20,7 @@
         "caryophyllene": 0.06,
         "myrcene": 0.65,
         "cohumulone": 0.25,
-        "totalOil": 2.5,
-        "description": "Citrus, grapefruit, lime, tropical fruits, harsh bitterness"
+        "totalOil": 2.5
     },
     {
         "_id": "2",
@@ -33,6 +33,7 @@
             "twoChar": "US",
             "threeChar": "USA"
         },
+        "description": "Aroma variety with floral, blueberry, tangerine, papaya, rose blossoms, grass, earthy & bubble gum notes.",
         "form": "T-90 pellet",
         "cropYear": 2017,
         "alpha": 0.120,
@@ -41,8 +42,7 @@
         "caryophyllene": 0.06,
         "myrcene": 0.50,
         "cohumulone": 0.25,
-        "totalOil": 1.25,
-        "description": "Aroma variety with floral, blueberry, tangerine, papaya, rose blossoms, grass, earthy & bubble gum notes."
+        "totalOil": 1.25
     },
     {
         "_id": "3",
@@ -52,6 +52,7 @@
             "twoChar": "US",
             "threeChar": "USA"
         },
+        "description": "Flavors of tropical fruit, pineapple, mango. Aromas of pear, watermelon, stone fruit and candy.",
         "form": "T-90 pellet",
         "cropYear": 2017,
         "alpha": 0.150,
@@ -60,7 +61,6 @@
         "caryophyllene": 0.06,
         "myrcene": 0.57,
         "cohumulone": 0.3,
-        "totalOil": 3.0,
-        "description": "Flavors of tropical fruit, pineapple, mango. Aromas of pear, watermelon, stone fruit and candy."
+        "totalOil": 3.0
     }
 ]

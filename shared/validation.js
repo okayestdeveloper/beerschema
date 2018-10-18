@@ -9,13 +9,12 @@
  */
 function validateAgainstSchema(model, schemaPath) {
     const Ajv = require('ajv');
-    const ajv = new Ajv({ schemaId: 'auto' });
-    ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-07.json'));
-    const schema = require(schemaPath);
-    const valid = ajv.validate(schema.model);
+    const ajv = new Ajv();
+    const validator = ajv.compile(require(schemaPath));
+    const valid = validator(model);
 
     if (!valid) {
-        throw new Error(ajv.errorsText());
+        throw new Error(ajv.errorsText(validator.errors));
     }
 
     return true;

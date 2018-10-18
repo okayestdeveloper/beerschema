@@ -1,10 +1,11 @@
 'use strict';
-const aws = require('aws-sdk');
-const dynamo = new aws.DynamoDB.DocumentClient({ region: process.env.awsRegion });
-const tableName = process.env.productTableName;
-const statusCodes = require('../common/constants.js').statusCodes;
-const schemaValidator = require('../common/validation').validateAgainstSchema;
-const sanitizer = require('../common/sanitizer');
+
+const statusCodes = require('beerschema-shared/constants').statusCodes;
+const schemaValidator = require('beerschema-shared/validation').validateAgainstSchema;
+const sanitizer = require('beerschema-shared/sanitizer');
+const path = require('path');
+const hopsSchemaPath = path.join(process.cwd(), 'hops.schema.json');
+const database = require('./database');
 
 const headers = {
     'Content-Type': 'application/json',
@@ -18,48 +19,35 @@ const headers = {
  * @param {function} callback call to return error or success response
  */
 function getHop(event, context, callback) {
-    console.log('beer.json - hops - getHop called');
-    const id = parseInt(event.pathParameters.id, 10);
-    dynamo.get({
-        Key: { id },
-        TableName: tableName
-    }, (err, data) => {
-        if (err) {
-            callback(err);
-        } else {
-            const hop = data.Item;
+    console.log(`${process.env.serviceName}: getHop called`);
+    database.getHop(event.pathParameters.id)
+        .then((hop) => {
             callback(null, {
                 statusCode: statusCodes.OK,
                 headers,
                 body: JSON.stringify(hop)
             });
-        }
-    });
+        })
+        .catch((err) => callback(err));
 }
 
 /**
- * Get one or all hops
+ * Get all hops
  * @param {object} event the incoming triggering event. Contains query params and such.
  * @param {object} context execution context, I guess
  * @param {function} callback call to return error or success response
  */
 function listHops(event, context, callback) {
-    console.log('beer.json - hops - listHops called');
-    // TODO: pagination
-    dynamo.scan({
-        TableName: tableName
-    }, (err, data) => {
-        if (err) {
-            callback(err);
-        } else {
-            const hops = data.Items;
+    console.log(`${process.env.serviceName}: listHops called`);
+    database.listHops()
+        .then((hops) => {
             callback(null, {
                 statusCode: statusCodes.OK,
                 headers,
                 body: JSON.stringify(hops)
             });
-        }
-    });
+        })
+        .catch((err) => callback(err));
 }
 
 /**
@@ -69,36 +57,32 @@ function listHops(event, context, callback) {
  * @param {function} callback call to return error or success response
  */
 function createHop(event, context, callback) {
-    console.log('beer.json - hops - createHop called');
-    const hop = JSON.parse(event.body);
+    console.log(`${process.env.serviceName}: createHop called`);
+    let hop = JSON.parse(event.body);
 
     // validation
     try {
         hop = sanitizer.sanitizeModel(hop); // get rid of html
-        schemaValidator(hop, './hops.schema.json'); // validate against schema
+        schemaValidator(hop, hopsSchemaPath); // validate against schema
     } catch (error) {
         console.error('createHop: Error(s) validating against schema: ', error);
         callback({
             statusCode: statusCodes.BAD_REQUEST,
             headers,
-            body: JSON.stringify({msg: 'Model failed schema validation.', extended: error.message})
+            body: JSON.stringify({ msg: 'Model failed schema validation.', extended: error.message })
         });
+        return;
     }
 
-    dynamo.put({
-        Item: hop,
-        TableName: tableName
-    }, (err, response) => {
-        if (err) {
-            callback(err);
-        } else {
+    database.createHop(hop)
+        .then((response) => {
             callback(null, {
                 statusCode: statusCodes.CREATED,
                 headers,
                 body: JSON.stringify(response)
             });
-        }
-    });
+        })
+        .catch((err) => callback(err));
 }
 
 /**
@@ -108,9 +92,33 @@ function createHop(event, context, callback) {
  * @param {function} callback call to return error or success response
  */
 function updateHop(event, context, callback) {
-    console.log('beer.json - hops - updateHop called');
-    // const hop = JSON.parse(event.body);
-    // TODO: validation
+    console.log(`${process.env.serviceName}: updateHop called`);
+    const hop = JSON.parse(event.body);
+    hop.id = event.pathParameters.id;
+
+    // validation
+    try {
+        hop = sanitizer.sanitizeModel(hop); // get rid of html
+        schemaValidator(hop, hopsSchemaPath); // validate against schema
+    } catch (error) {
+        console.error('createHop: Error(s) validating against schema: ', error);
+        callback({
+            statusCode: statusCodes.BAD_REQUEST,
+            headers,
+            body: JSON.stringify({ msg: 'Model failed schema validation.', extended: error.message })
+        });
+        return;
+    }
+
+    database.updateHop(hop)
+        .then((updated) => {
+            callback(null, {
+                statusCode: statusCodes.OK,
+                headers,
+                body: JSON.stringify(updated)
+            });
+        })
+        .catch((err) => callback(err));
 }
 
 /**
@@ -120,7 +128,15 @@ function updateHop(event, context, callback) {
  * @param {function} callback call to return error or success response
  */
 function deleteHop(event, context, callback) {
-    console.log('beer.json - hops - deleteHop called');
+    console.log(`${process.env.serviceName}: deleteHop called`);
+    database.updateHop(event.pathParameters.id)
+        .then(() => {
+            callback(null, {
+                statusCode: statusCodes.NO_CONTENT,
+                headers
+            });
+        })
+        .catch((err) => callback(err));
 }
 
 module.exports = {

@@ -6,7 +6,7 @@
     "type": "object",
     "properties": {
         "id": {
-            "type": "number"
+            "type": "string"
         },
         "label": {
             "type": "string"
@@ -60,7 +60,6 @@
         }
     },
     "required": [
-        "label",
-        "type"
+        "label"
     ]
 }

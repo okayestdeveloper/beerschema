@@ -1,106 +1,87 @@
-service: 'beerschema-hops'
-
-type: beerschema-hops-api
+service: beerschema-hops-api
 
 custom:
   defaultRegion: us-east-1
-  tableName: beerschema-hops-table-${opt:stage}
+  settings:
+    awsRegion: ${self:provider.region}
+    hopsTableName: beerschema-hops-table-${self:provider.stage}
+    serviceName: ${self:service}-${self:provider.stage}
 
-components:
-  beerJsonDb:
-    type: aws-dynamodb
-    inputs:
-      region: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
-      tables:
-        - name: ${self:custom.tableName}
-          hashKey: id
-          indexes:
-            - name: HopIdIndex
-              type: global
-              hashKey: id
-          schema:
-            id: number
-            label: string
-            aka: string
-            countryOfOrigin:
-                label: string
-                twoChar: string
-                threeChar: string
-            description: string
-          options:
-            timestamps: true
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'dev'}
+  profile: blserverless
+  region: ${opt:region, self:custom.defaultRegion}
+  memorySize: 512
+  timeout: 10
+  environment: ${self:custom.settings}
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:Scan"
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.hopsTableName}"
+    - Effect: "Allow"
+      Action:
+        - "cloudfront:updateDistribution"
+      Resource:
+        - "*"
+
+functions:
   createHop:
-    type: aws-lambda
-    inputs:
-      memory: 512
-      timeout: 10
-      handler: handler.createHop
-      root: ./
-      env:
-        awsRegion: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
-        productTableName: ${self:custom.tableName}
+    handler: handler.createHop
+    events:
+      - http:
+          path: hops
+          method: post
   listHops:
-    type: aws-lambda
-    inputs:
-      memory: 512
-      timeout: 10
-      handler: handler.listHops
-      root: ./
-      env:
-        awsRegion: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
-        productTableName: ${self:custom.tableName}
+    handler: handler.listHops
+    events:
+      - http:
+          method: get
+          path: hops
   getHop:
-    type: aws-lambda
-    inputs:
-      memory: 512
-      timeout: 10
-      handler: handler.getHop
-      root: ./
-      env:
-        awsRegion: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
-        productTableName: ${self:custom.tableName}
+    handler: handler.getHop
+    events:
+      - http:
+          method: get
+          path: hops/{id}
   updateHop:
-    type: aws-lambda
-    inputs:
-      memory: 512
-      timeout: 10
-      handler: handler.updateHop
-      root: ./
-      env:
-        awsRegion: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
-        productTableName: ${self:custom.tableName}
+    handler: handler.updateHop
+    events:
+      - http:
+          method: put
+          path: hops/{id}
   deleteHop:
-    type: aws-lambda
-    inputs:
-      memory: 512
-      timeout: 10
-      handler: handler.deleteHop
-      root: ./
-      env:
-        awsRegion: ${env:BEER_SCHEMA_REGION, self:custom.defaultRegion}
-        productTableName: ${self:custom.tableName}
-  hopsApi:
-    type: rest-api
-    inputs:
-      gateway: aws-apigateway
-      routes:
-        /hops:
-          post:
-            function: ${createHop}
-            cors: true
-          get:
-            function: ${listHops}
-          /{id}:
-            get:
-              function: ${getHop}
-              cors: true
-            put:
-              function: ${updateHop}
-              cors: true
-            delete:
-              function: ${deleteHop}
-              cors: true
+    handler: handler.deleteHop
+    events:
+      - http:
+          method: delete
+          path: hops/{id}
 
+resources:
+  Resources:
+    BeerSchemaHopsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.settings.hopsTableName}
+        AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+# TODO: domain
 package:
   exclude:
     - .eslintignore
@@ -110,3 +91,5 @@ package:
     - jasmine.json
     - LICENSE
     - README.md
+    - mocks
+    - pkg
