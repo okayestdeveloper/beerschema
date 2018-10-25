@@ -1,6 +1,6 @@
 <template>
 <div>
-   <div v-for="(hop, index) in hops" :key="index" class="hop">
+   <div v-for="hop in hops" :key="hop.id" class="hop">
      <hop :hop="hop"></hop>
    </div>
 </div>
@@ -21,12 +21,13 @@ export default {
     computed: {
         ...mapState({ hops: state => state.hops })
     },
-    /**
-     * Load up hops on creation
-     */
-    beforeCreate() {
-        if (this.$store) {
-            this.$store.dispatch('loadHops');
+    created() {
+        if (this.$store && (!this.hops || !this.hops.length)) {
+            this.$store.dispatch('loadHops')
+                .catch(error => {
+                    window.alert('Could not load hops');
+                    console.log(error);
+                });
         }
     },
 };

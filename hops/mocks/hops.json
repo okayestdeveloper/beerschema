@@ -1,6 +1,6 @@
 [
     {
-        "_id": "1",
+        "id": "1",
         "label": "Citra",
         "aka": [
             "Citra® Brand HBC 394 cv",
@@ -23,7 +23,7 @@
         "totalOil": 2.5
     },
     {
-        "_id": "2",
+        "id": "2",
         "label": "Mosaic",
         "aka": [
             "HBC369"
@@ -45,7 +45,7 @@
         "totalOil": 1.25
     },
     {
-        "_id": "3",
+        "id": "3",
         "label": "El Dorado",
         "countryOfOrigin": {
             "label": "United States",

@@ -1,6 +1,6 @@
 <template>
     <div class="hop-item">
-        <h2>{{hop.label}}</h2>
+        <h2>{{hop.label}} <router-link :to="{ path: `/edit/${hop.id}`}" class="btn">✏️</router-link ></h2>
         <p>{{hop.description}}</p>
         <ul>
             <li>AKA: {{hop.aka}}</li>
