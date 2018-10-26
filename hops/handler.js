@@ -38,9 +38,14 @@ function getHop(event, context, callback) {
  * @param {function} callback call to return error or success response
  */
 function listHops(event, context, callback) {
+    // TODO: pagination - I think this is how to get headers: https://docs.aws.amazon.com/lambda/latest/dg/eventsources.html#eventsources-api-gateway-request
+    // let page = event.headers['x-pagination-page'];
+    // let numItems = event.headers[ 'x-pagination-limit'];
     console.log(`${process.env.serviceName}: listHops called`);
     database.listHops()
         .then((hops) => {
+            // headers['x-pagination-page'] = ;
+            // headers['x-pagination-total-items'] = ;
             callback(null, {
                 statusCode: statusCodes.OK,
                 headers,
@@ -75,11 +80,11 @@ function createHop(event, context, callback) {
     }
 
     database.createHop(hop)
-        .then((response) => {
+        .then((newHop) => {
             callback(null, {
                 statusCode: statusCodes.CREATED,
                 headers,
-                body: JSON.stringify(response)
+                body: JSON.stringify(newHop)
             });
         })
         .catch((err) => callback(err));
@@ -93,24 +98,17 @@ function createHop(event, context, callback) {
  */
 function updateHop(event, context, callback) {
     console.log(`${process.env.serviceName}: updateHop called`);
-    const hop = JSON.parse(event.body);
+    let hop = JSON.parse(event.body);
     hop.id = event.pathParameters.id;
 
-    // validation
-    try {
-        hop = sanitizer.sanitizeModel(hop); // get rid of html
-        schemaValidator(hop, hopsSchemaPath); // validate against schema
-    } catch (error) {
-        console.error('createHop: Error(s) validating against schema: ', error);
-        callback({
-            statusCode: statusCodes.BAD_REQUEST,
-            headers,
-            body: JSON.stringify({ msg: 'Model failed schema validation.', extended: error.message })
-        });
-        return;
-    }
-
-    database.updateHop(hop)
+    database.getHop(hop.id)
+        .then((existingHop) => {
+            hop = Object.assign({}, existingHop, hop);
+            // validation
+            hop = sanitizer.sanitizeModel(hop); // get rid of html
+            schemaValidator(hop, hopsSchemaPath); // validate against schema
+            return database.updateHop(existingHop);
+        })
         .then((updated) => {
             callback(null, {
                 statusCode: statusCodes.OK,
@@ -118,7 +116,14 @@ function updateHop(event, context, callback) {
                 body: JSON.stringify(updated)
             });
         })
-        .catch((err) => callback(err));
+        .catch((error) => {
+            console.error('updateHop: Error(s) validating against schema: ', error);
+            callback({
+                statusCode: statusCodes.BAD_REQUEST,
+                headers,
+                body: JSON.stringify({ msg: 'Model failed schema validation.', extended: error.message })
+            });
+        });
 }
 
 /**
@@ -129,7 +134,7 @@ function updateHop(event, context, callback) {
  */
 function deleteHop(event, context, callback) {
     console.log(`${process.env.serviceName}: deleteHop called`);
-    database.updateHop(event.pathParameters.id)
+    database.deleteHop(event.pathParameters.id)
         .then(() => {
             callback(null, {
                 statusCode: statusCodes.NO_CONTENT,

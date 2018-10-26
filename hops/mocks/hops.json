@@ -1,66 +1,59 @@
 [
     {
-        "id": "1",
+        "countryOfOrigin": {
+            "twoChar": "GB",
+            "label": "Great Britain",
+            "threeChar": "GBR"
+        },
+        "description": "Aromas of lavender, spice, honey, thyme, earthy flavors",
+        "id": "ecb21890-d917-11e8-a50c-fd28cb3bfd5b",
+        "label": "East Kent Golding",
+        "aka": [
+            "Kent Golding",
+            "EKG",
+            "Canterbury Golding"
+        ]
+    },
+    {
+        "countryOfOrigin": {
+            "twoChar": "AU",
+            "label": "Australia",
+            "threeChar": "AUS"
+        },
+        "description": "Tropical fruit, pine, herbs",
+        "id": "dcbf07f0-d88f-11e8-98ba-e35f1f7aa8a8",
+        "label": "Vic Secret",
+        "aka": [
+            "Victoria",
+            "Victoria’s Secret",
+            "Victoria Secret"
+        ]
+    },
+    {
+        "countryOfOrigin": {
+            "twoChar": "US",
+            "label": "United States",
+            "threeChar": "USA"
+        },
+        "id": "470b1340-ce6f-11e8-825b-5fbf22fdb82a",
+        "description": "Grapefruit",
         "label": "Citra",
         "aka": [
             "Citra® Brand HBC 394 cv",
             "HBC394"
-        ],
-        "countryOfOrigin": {
-            "label": "United States",
-            "twoChar": "US",
-            "threeChar": "USA"
-        },
-        "description": "Citrus, grapefruit, lime, tropical fruits, harsh bitterness",
-        "form": "T-90 pellet",
-        "cropYear": 2017,
-        "alpha": 0.125,
-        "beta": 0.04,
-        "humulene": 0.1,
-        "caryophyllene": 0.06,
-        "myrcene": 0.65,
-        "cohumulone": 0.25,
-        "totalOil": 2.5
+        ]
     },
     {
-        "id": "2",
-        "label": "Mosaic",
-        "aka": [
-            "HBC369"
-        ],
         "countryOfOrigin": {
-            "label": "United States",
             "twoChar": "US",
+            "label": "United States",
             "threeChar": "USA"
         },
         "description": "Aroma variety with floral, blueberry, tangerine, papaya, rose blossoms, grass, earthy & bubble gum notes.",
-        "form": "T-90 pellet",
-        "cropYear": 2017,
-        "alpha": 0.120,
-        "beta": 0.033,
-        "humulene": 0.145,
-        "caryophyllene": 0.06,
-        "myrcene": 0.50,
-        "cohumulone": 0.25,
-        "totalOil": 1.25
-    },
-    {
-        "id": "3",
-        "label": "El Dorado",
-        "countryOfOrigin": {
-            "label": "United States",
-            "twoChar": "US",
-            "threeChar": "USA"
-        },
-        "description": "Flavors of tropical fruit, pineapple, mango. Aromas of pear, watermelon, stone fruit and candy.",
-        "form": "T-90 pellet",
-        "cropYear": 2017,
-        "alpha": 0.150,
-        "beta": 0.075,
-        "humulene": 0.135,
-        "caryophyllene": 0.06,
-        "myrcene": 0.57,
-        "cohumulone": 0.3,
-        "totalOil": 3.0
+        "id": "843e4740-d082-11e8-b04c-a55c5f6253ec",
+        "label": "Mosaic",
+        "aka": [
+            "HBC369"
+        ]
     }
 ]

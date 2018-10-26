@@ -74,9 +74,13 @@ resources:
         AttributeDefinitions:
         - AttributeName: "id"
           AttributeType: "S"
+        - AttributeName: "label"
+          AttributeType: "S"
         KeySchema:
         - AttributeName: "id"
           KeyType: "HASH"
+        - AttributeName: "label"
+          KeyType: "RANGE"
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1

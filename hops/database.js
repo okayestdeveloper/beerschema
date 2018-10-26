@@ -22,8 +22,8 @@ function getHop(id) {
 }
 
 /**
- * Get all the hops
- * TODO: pagination
+ * Get all the hops limited by pagination
+ * TODO: pagination - apparently "Limit start, count" isn't supported in DynamoDB
  * @return {Promise}
  */
 function listHops() {
@@ -32,7 +32,15 @@ function listHops() {
             TableName: tableName
         })
         .promise()
-        .then((data) => data.Items);
+        .then((data) => data.items);
+    //     .query({
+    //     TableName: tableName,
+    //     ScanIndexForward: true,
+    //     Limit: numItems,
+    //     ExclusiveStartKey: {
+    //         'label': ???
+    //     }
+    // })
 }
 
 /**
@@ -47,7 +55,8 @@ function createHop(hop) {
             TableName: tableName,
             Item: hop
         })
-        .promise();
+        .promise()
+        .then(() => hop); // return what we just inserted
 }
 
 /**
@@ -59,11 +68,11 @@ function updateHop(hop) {
     return dynamo
         .put({
             TableName: tableName,
-            Item: hop,
-            ReturnValues: 'ALL_NEW'
+            Item: hop // ,
+            // ReturnValues: 'ALL_NEW' DynamoDB.PutItem doesn't support ALL_NEW apparently
         })
         .promise()
-        .then((data) => data.Attributes);
+        .then(() => hop); // so just send back the updated version
 }
 
 /**
