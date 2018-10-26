@@ -32,7 +32,7 @@ function listHops() {
             TableName: tableName
         })
         .promise()
-        .then((data) => data.items);
+        .then((data) => data.Items || []);
     //     .query({
     //     TableName: tableName,
     //     ScanIndexForward: true,
