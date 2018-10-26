@@ -3,6 +3,8 @@ import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
+const apiUrl = 'https://dev.api-menuviz.net/hops';
+
 export default new Vuex.Store({
     state: {
         hops: []
@@ -24,7 +26,7 @@ export default new Vuex.Store({
     },
     actions: {
         loadHops({ commit, state }) {
-            return fetch('https://dev.api-menuviz.net/hops')
+            return fetch(apiUrl)
                 .then((response) => {
                     if (!response.bodyUsed) {
                         return response.json();
@@ -48,7 +50,15 @@ export default new Vuex.Store({
                 commit('setHops', [...state.hops.slice(0, index), hop, ...state.hops.slice(index + 1)]);
             } else {
                 // TODO: POST to API then commit
-                commit('setHops', [...state.hops, hop]);
+                fetch(apiUrl, {
+                    method: 'POST',
+                    body: JSON.stringify(hop),
+                    mode: 'cors'
+                })
+                    .then(response => response.json())
+                    .then((newHop) => {
+                        commit('setHops', [...state.hops, newHop]);
+                    });
             }
         }
     },
