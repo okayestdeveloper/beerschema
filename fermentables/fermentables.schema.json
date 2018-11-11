@@ -14,6 +14,16 @@
         "description": {
             "type": "string"
         },
+        "type": {
+            "type": "string",
+            "enum": [
+                "Grain",
+                "Liquid Extract",
+                "Sugar",
+                "Adjuncts",
+                "Dry Extract"
+            ]
+        },
         "color": {
             "type": "object",
             "properties": {
@@ -45,6 +55,7 @@
     },
     "required": [
         "label",
-        "color"
+        "color",
+        "type"
     ]
 }
