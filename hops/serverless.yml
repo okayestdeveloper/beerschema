@@ -38,32 +38,32 @@ functions:
     handler: handler.createHop
     events:
       - http:
-          path: hops
           method: post
+          path: /
   listHops:
     handler: handler.listHops
     events:
       - http:
           method: get
-          path: hops
+          path: /
   getHop:
     handler: handler.getHop
     events:
       - http:
           method: get
-          path: hops/{id}
+          path: /{id}
   updateHop:
     handler: handler.updateHop
     events:
       - http:
           method: put
-          path: hops/{id}
+          path: /{id}
   deleteHop:
     handler: handler.deleteHop
     events:
       - http:
           method: delete
-          path: hops/{id}
+          path: /{id}
 
 resources:
   Resources:

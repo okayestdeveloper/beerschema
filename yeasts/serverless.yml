@@ -38,32 +38,32 @@ functions:
     handler: handler.createYeast
     events:
       - http:
-          path: yeasts
           method: post
+          path: /
   listYeasts:
     handler: handler.listYeasts
     events:
       - http:
           method: get
-          path: yeasts
+          path: /
   getYeast:
     handler: handler.getYeast
     events:
       - http:
           method: get
-          path: yeasts/{id}
+          path: /{id}
   updateYeast:
     handler: handler.updateYeast
     events:
       - http:
           method: put
-          path: yeasts/{id}
+          path: /{id}
   deleteYeast:
     handler: handler.deleteYeast
     events:
       - http:
           method: delete
-          path: yeasts/{id}
+          path: /{id}
 
 resources:
   Resources:

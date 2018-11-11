@@ -38,32 +38,32 @@ functions:
     handler: handler.createFermentable
     events:
       - http:
-          path: fermentables
           method: post
+          path: /
   listFermentables:
     handler: handler.listFermentables
     events:
       - http:
           method: get
-          path: fermentables
+          path: /
   getFermentable:
     handler: handler.getFermentable
     events:
       - http:
           method: get
-          path: fermentables/{id}
+          path: /{id}
   updateFermentable:
     handler: handler.updateFermentable
     events:
       - http:
           method: put
-          path: fermentables/{id}
+          path: /{id}
   deleteFermentable:
     handler: handler.deleteFermentable
     events:
       - http:
           method: delete
-          path: fermentables/{id}
+          path: /{id}
 
 resources:
   Resources:
