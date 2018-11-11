@@ -1,8 +1,9 @@
 [
     {
-        "id": "1",
+        "id": "6ea1f560-e5fb-11e8-9baf-9d7874ce3de7",
         "label": "2-Row",
         "description": "Common base malt for most ales.",
+        "type": "Grain",
         "color": {
             "value": 2,
             "units": "Lovibond"
@@ -15,9 +16,10 @@
         }
     },
     {
-        "id": "2",
+        "id": "1c6dfe50-e5fc-11e8-9baf-9d7874ce3de7",
         "label": "Pilsner",
         "description": "Common base malt for many lagers.",
+        "type": "Grain",
         "color": {
             "value": 2,
             "units": "Lovibond"
