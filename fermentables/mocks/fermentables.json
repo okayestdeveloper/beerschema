@@ -1,0 +1,32 @@
+[
+    {
+        "id": "1",
+        "label": "2-Row",
+        "description": "Common base malt for most ales.",
+        "color": {
+            "value": 2,
+            "units": "Lovibond"
+        },
+        "recommendMash": true,
+        "countryOfOrigin": {
+            "label": "United States",
+            "twoChar": "US",
+            "threeChar": "USA"
+        }
+    },
+    {
+        "id": "2",
+        "label": "Pilsner",
+        "description": "Common base malt for many lagers.",
+        "color": {
+            "value": 2,
+            "units": "Lovibond"
+        },
+        "recommendMash": true,
+        "countryOfOrigin": {
+            "label": "United States",
+            "twoChar": "US",
+            "threeChar": "USA"
+        }
+    }
+]

@@ -1,0 +1,94 @@
+service: beerschema-fermentables-api
+
+custom:
+  defaultRegion: us-east-1
+  settings:
+    awsRegion: ${self:provider.region}
+    fermentablesTableName: beerschema-fermentables-table-${self:provider.stage}
+    serviceName: ${self:service}-${self:provider.stage}
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'dev'}
+  profile: blserverless
+  region: ${opt:region, self:custom.defaultRegion}
+  memorySize: 512
+  timeout: 10
+  environment: ${self:custom.settings}
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:Scan"
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.fermentablesTableName}"
+    - Effect: "Allow"
+      Action:
+        - "cloudfront:updateDistribution"
+      Resource:
+        - "*"
+
+functions:
+  createFermentable:
+    handler: handler.createFermentable
+    events:
+      - http:
+          path: fermentables
+          method: post
+  listFermentables:
+    handler: handler.listFermentables
+    events:
+      - http:
+          method: get
+          path: fermentables
+  getFermentable:
+    handler: handler.getFermentable
+    events:
+      - http:
+          method: get
+          path: fermentables/{id}
+  updateFermentable:
+    handler: handler.updateFermentable
+    events:
+      - http:
+          method: put
+          path: fermentables/{id}
+  deleteFermentable:
+    handler: handler.deleteFermentable
+    events:
+      - http:
+          method: delete
+          path: fermentables/{id}
+
+resources:
+  Resources:
+    BeerSchemafermentablesTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.settings.fermentablesTableName}
+        AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+package:
+  exclude:
+    - .eslintignore
+    - .eslintrc
+    - .npmrc
+    - .gitignore
+    - jasmine.json
+    - LICENSE
+    - README.md
+    - mocks
+    - pkg

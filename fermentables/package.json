@@ -1,0 +1,34 @@
+{
+  "name": "beerschema-fermentables-api",
+  "version": "0.1.0",
+  "description": "The fermentables portion of the beerschema API.",
+  "main": "handler.js",
+  "scripts": {
+    "deploy": "sls deploy",
+    "lint": "./node_modules/.bin/eslint -c .eslintrc --fix ./"
+  },
+  "author": {
+    "name": "Brad Ledbetter",
+    "email": "brad.ledbetter@gmail.com"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-import": "^2.12.0",
+    "serverless-domain-manager": "^2.6.5"
+  },
+  "dependencies": {
+    "ajv": "^6.5.4",
+    "aws-sdk": "^2.329.0",
+    "beerschema-shared": "file:../shared",
+    "traverse": "^0.6.6",
+    "uuid": "^3.3.2"
+  },
+  "keywords": [
+    "beerschema"
+  ],
+  "engines": {
+    "node": ">=8.10.1"
+  }
+}
