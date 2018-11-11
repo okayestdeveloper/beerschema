@@ -1,0 +1,30 @@
+[
+    {
+        "id": "1",
+        "label": "California Ale",
+        "description": "This strain was the first yeast strain produced by White Labs in 1995. Famous for its clean flavors and hardy fermentations. Known for its use in hoppy beers, it accentuates hop flavors and aromas and attenuates well, even for high gravity beers. This strain has the ability to be used in almost any style of ale ranging from IPA to porter and even kölsch, which makes it a great all-around house strain.",
+        "manufacturer": "White Labs",
+        "manufacturerCode": "WLP001",
+        "flocculation": "medium",
+        "alcoholTolerance": "High",
+        "minTemperature": 68,
+        "maxTemperature": 73,
+        "minAttenuation": 73,
+        "maxAttenuation": 80,
+        "substitutions": []
+    },
+    {
+        "id": "2",
+        "label": "American Ale",
+        "description": "Very clean, crisp flavor characteristics with low fruitness and mild ester production. A very versatile yeast for styles that desire dominant malt and hop character. This strain makes a wonderful 'House' strain. Mild citrus notes develop with cooler 60-66F (15-19C) fermentations. Normally requires filtration for bright beers.",
+        "manufacturer": "Wyeast",
+        "manufacturerCode": "1056",
+        "flocculation": "medium",
+        "alcoholTolerance": "High",
+        "minTemperature": 60,
+        "maxTemperature": 72,
+        "minAttenuation": 73,
+        "maxAttenuation": 77,
+        "substitutions": []
+    }
+]

@@ -1,0 +1,66 @@
+{
+    "$id": "https://api-menuviz.net/fermentables.schema.json",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "BeerJSONModel",
+    "description": "A simple schema to describe something yeast can ferment.",
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "label": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "manufacturer": {
+            "type": "string"
+        },
+        "manufacturerCode": {
+            "type": "string"
+        },
+        "flocculation": {
+            "type": "string",
+            "enum": [
+                "low",
+                "medium",
+                "high",
+                "very high"
+            ]
+        },
+        "alcoholTolerance": {
+            "type": "string",
+            "enum": [
+                "Low",
+                "Medium",
+                "Medium-High",
+                "High",
+                "Very High"
+            ]
+        },
+        "minTemperature": {
+            "type": "number"
+        },
+        "maxTemperature": {
+            "type": "number"
+        },
+        "minAttenuation": {
+            "type": "number"
+        },
+        "maxAttenuation": {
+            "type": "number"
+        },
+        "substitutions": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        }
+    },
+    "required": [
+        "label",
+        "manufacturer",
+        "manufacturerCode"
+    ]
+}

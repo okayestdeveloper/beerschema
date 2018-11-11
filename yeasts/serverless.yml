@@ -1,0 +1,94 @@
+service: beerschema-yeasts-api
+
+custom:
+  defaultRegion: us-east-1
+  settings:
+    awsRegion: ${self:provider.region}
+    yeastsTableName: beerschema-yeasts-table-${self:provider.stage}
+    serviceName: ${self:service}-${self:provider.stage}
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'dev'}
+  profile: blserverless
+  region: ${opt:region, self:custom.defaultRegion}
+  memorySize: 512
+  timeout: 10
+  environment: ${self:custom.settings}
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:Scan"
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.yeastsTableName}"
+    - Effect: "Allow"
+      Action:
+        - "cloudfront:updateDistribution"
+      Resource:
+        - "*"
+
+functions:
+  createYeast:
+    handler: handler.createYeast
+    events:
+      - http:
+          path: yeasts
+          method: post
+  listYeasts:
+    handler: handler.listYeasts
+    events:
+      - http:
+          method: get
+          path: yeasts
+  getYeast:
+    handler: handler.getYeast
+    events:
+      - http:
+          method: get
+          path: yeasts/{id}
+  updateYeast:
+    handler: handler.updateYeast
+    events:
+      - http:
+          method: put
+          path: yeasts/{id}
+  deleteYeast:
+    handler: handler.deleteYeast
+    events:
+      - http:
+          method: delete
+          path: yeasts/{id}
+
+resources:
+  Resources:
+    BeerSchemayeastsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.settings.yeastsTableName}
+        AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+package:
+  exclude:
+    - .eslintignore
+    - .eslintrc
+    - .npmrc
+    - .gitignore
+    - jasmine.json
+    - LICENSE
+    - README.md
+    - mocks
+    - pkg
