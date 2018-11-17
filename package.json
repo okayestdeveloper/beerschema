@@ -1,20 +1,25 @@
 {
-    "name": "beerschema",
-    "version": "0.1.0",
-    "description": "An schema for defining necessary data about beer recipes, inventory, etcetera and the related API to interact with it.",
-    "scripts": {
-        "deploy:hops": "cd hops && sls deploy",
-        "lint": "./node_modules/.bin/eslint -c .eslintrc --fix ./"
-    },
-    "author": {
-        "name": "Brad Ledbetter",
-        "email": "brad.ledbetter@gmail.com"
-    },
-    "license": "UNLICENSED",
-    "keywords": [
-        "beerschema"
-    ],
-    "engines": {
-        "node": ">=8.10.1"
-    }
+  "name": "beerschema",
+  "version": "0.1.0",
+  "description": "An schema for defining necessary data about beer recipes, inventory, etcetera and the related API to interact with it.",
+  "scripts": {
+    "deploy:hops": "cd hops && sls deploy",
+    "lint": "./node_modules/.bin/eslint -c .eslintrc --fix ./"
+  },
+  "author": {
+    "name": "Brad Ledbetter",
+    "email": "brad.ledbetter@gmail.com"
+  },
+  "license": "UNLICENSED",
+  "keywords": [
+    "beerschema"
+  ],
+  "engines": {
+    "node": ">=8.10.1"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.1",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-import": "^2.12.0"
+  }
 }

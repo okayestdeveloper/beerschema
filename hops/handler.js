@@ -38,7 +38,8 @@ function getHop(event, context, callback) {
  * @param {function} callback call to return error or success response
  */
 function listHops(event, context, callback) {
-    // TODO: pagination - I think this is how to get headers: https://docs.aws.amazon.com/lambda/latest/dg/eventsources.html#eventsources-api-gateway-request
+    // TODO: pagination - I think this is how to get headers:
+    // https://docs.aws.amazon.com/lambda/latest/dg/eventsources.html#eventsources-api-gateway-request
     // let page = event.headers['x-pagination-page'];
     // let numItems = event.headers[ 'x-pagination-limit'];
     console.log(`${process.env.serviceName}: listHops called`);
