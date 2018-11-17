@@ -14,7 +14,7 @@
         "comma-dangle": 0,
         "indent": [
             "error",
-            4
+            2
         ],
         "object-curly-newline": 0,
         "object-curly-spacing": 0
