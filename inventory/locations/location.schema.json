@@ -1,0 +1,36 @@
+{
+  "$id": "https://api-menuviz.net/hops.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BeerJSONModel",
+  "description": "A simple schema to describe an inventory location.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "addresss": {
+      "type": "object",
+      "properties": {
+        "street1": {
+            "type": "string"
+        },
+        "street2": {
+            "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "required": ["label"]
+}

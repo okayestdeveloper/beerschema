@@ -1,0 +1,100 @@
+service: beerschema-inventory-transactions-api
+# TODO:
+custom:
+  defaultRegion: us-east-1
+  settings:
+    awsRegion: ${self:provider.region}
+    inventoryTransactionsTableName: beerschema-inventory-transactions-table-${self:provider.stage}
+    serviceName: ${self:service}-${self:provider.stage}
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'dev'}
+  profile: blserverless
+  region: ${opt:region, self:custom.defaultRegion}
+  memorySize: 512
+  timeout: 10
+  environment: ${self:custom.settings}
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:Scan"
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.inventoryTransactionsTableName}"
+    - Effect: "Allow"
+      Action:
+        - "cloudfront:updateDistribution"
+      Resource:
+        - "*"
+
+functions:
+  receiveInventory:
+    handler: handler.receiveInventory
+    events:
+      - http:
+          method: post
+          path: transactions/receive
+  transferInventory:
+    handler: handler.transferInventory
+    events:
+      - http:
+          method: post
+          path: transactions/transfer
+  createPhysicalCount:
+    handler: handler.createPhysicalCount
+    events:
+      - http:
+          method: post
+          path: transactions/physicalCount
+  savePhysicalCount:
+    handler: handler.savePhysicalCount
+    events:
+      - http:
+          method: put
+          path: transactions/physicalCount/{id}
+  depleteInventoryItem:
+    handler: handler.depleteInventoryItem
+    events:
+      - http:
+          method: post
+          path: transactions/depleteInventoryItem
+  depleteRecipe:
+    handler: handler.depleteRecipe
+    events:
+      - http:
+          method: post
+          path: transactions/depleteRecipe
+
+resources:
+  Resources:
+    BeerSchemaInventoryTransactionsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.settings.inventoryTransactionsTableName}
+        AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+package:
+  exclude:
+    - .eslintignore
+    - .eslintrc
+    - .npmrc
+    - .gitignore
+    - jasmine.json
+    - LICENSE
+    - README.md
+    - mocks
+    - pkg

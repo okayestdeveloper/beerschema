@@ -1,0 +1,95 @@
+service: beerschema-inventory-vendors-api
+
+custom:
+  defaultRegion: us-east-1
+  settings:
+    awsRegion: ${self:provider.region}
+    inventoryVendorsTableName: beerschema-inventory-vendors-table-${self:provider.stage}
+    serviceName: ${self:service}-${self:provider.stage}
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'dev'}
+  profile: blserverless
+  region: ${opt:region, self:custom.defaultRegion}
+  memorySize: 512
+  timeout: 10
+  environment: ${self:custom.settings}
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:Scan"
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.inventoryVendorsTableName}"
+    - Effect: "Allow"
+      Action:
+        - "cloudfront:updateDistribution"
+      Resource:
+        - "*"
+
+functions:
+  createInventoryVendor:
+    handler: handler.createInventoryVendor
+    events:
+      - http:
+          method: post
+          path: vendors
+  listInventoryVendors:
+    handler: handler.listInventoryVendors
+    events:
+      - http:
+          method: get
+          path: vendors
+  getInventoryVendor:
+    handler: handler.getInventoryVendor
+    events:
+      - http:
+          method: get
+          path: vendors/{id}
+  updateInventoryVendor:
+    handler: handler.updateInventoryVendor
+    events:
+      - http:
+          method: put
+          path: vendors/{id}
+  deleteInventoryVendor:
+    handler: handler.deleteInventoryVendor
+    events:
+      - http:
+          method: delete
+          path: vendors/{id}
+
+resources:
+  Resources:
+    BeerSchemaInventoryVendorsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.settings.inventoryVendorsTableName}
+        AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+# TODO: domain
+package:
+  exclude:
+    - .eslintignore
+    - .eslintrc
+    - .npmrc
+    - .gitignore
+    - jasmine.json
+    - LICENSE
+    - README.md
+    - mocks
+    - pkg

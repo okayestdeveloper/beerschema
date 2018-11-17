@@ -1,0 +1,49 @@
+{
+  "$id": "https://api-menuviz.net/hops.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BeerJSONModel",
+  "description": "A simple schema to describe an inventory measure.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string",
+      "description": "bag, each, gram, liter"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["mass", "volume", "temperature", "other"]
+    },
+    "uom": {
+      "type": "object",
+      "properties": {
+        "label": {
+          "type": "string",
+          "enum": [
+            "Milliliter",
+            "Liter",
+            "Hectoliter",
+            "Gram",
+            "Kilogram",
+            "Each",
+            "Fluid Ounce",
+            "Cup",
+            "Pint",
+            "Quart",
+            "Gallon",
+            "Barrel",
+            "Ounce",
+            "Pound"
+          ]
+        },
+        "abbr": {
+          "type": "string",
+          "enum": ["mL", "L", "hL", "g", "kg", "ea", "fl oz", "c", "pt", "qt", "gal", "bbl", "oz", "lb"]
+        }
+      }
+    }
+  },
+  "required": ["label"]
+}

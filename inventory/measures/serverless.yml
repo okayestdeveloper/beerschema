@@ -1,0 +1,94 @@
+service: beerschema-inventory-measures-api
+
+custom:
+  defaultRegion: us-east-1
+  settings:
+    awsRegion: ${self:provider.region}
+    inventoryMeasuresTableName: beerschema-inventory-measures-table-${self:provider.stage}
+    serviceName: ${self:service}-${self:provider.stage}
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: ${opt:stage, 'dev'}
+  profile: blserverless
+  region: ${opt:region, self:custom.defaultRegion}
+  memorySize: 512
+  timeout: 10
+  environment: ${self:custom.settings}
+  versionFunctions: false
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "dynamodb:GetItem"
+        - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:Scan"
+      Resource:
+        - "arn:aws:dynamodb:${self:provider.region}:*:table/${self:custom.settings.inventoryMeasuressTableName}"
+    - Effect: "Allow"
+      Action:
+        - "cloudfront:updateDistribution"
+      Resource:
+        - "*"
+
+functions:
+  createMeasure:
+    handler: handler.createMeasure
+    events:
+      - http:
+          method: post
+          path: measures
+  listMeasures:
+    handler: handler.listMeasures
+    events:
+      - http:
+          method: get
+          path: measures
+  getMeasure:
+    handler: handler.getMeasure
+    events:
+      - http:
+          method: get
+          path: measures/{id}
+  updateMeasure:
+    handler: handler.updateMeasure
+    events:
+      - http:
+          method: put
+          path: measures/{id}
+  deleteMeasure:
+    handler: handler.deleteMeasure
+    events:
+      - http:
+          method: delete
+          path: measures/{id}
+
+resources:
+  Resources:
+    BeerSchemaInventoryMeasuressTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.settings.inventoryMeasuresTableName}
+        AttributeDefinitions:
+        - AttributeName: "id"
+          AttributeType: "S"
+        KeySchema:
+        - AttributeName: "id"
+          KeyType: "HASH"
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+
+package:
+  exclude:
+    - .eslintignore
+    - .eslintrc
+    - .npmrc
+    - .gitignore
+    - jasmine.json
+    - LICENSE
+    - README.md
+    - mocks
+    - pkg
