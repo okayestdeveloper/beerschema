@@ -1,0 +1,19 @@
+{
+  "$id": "https://api-menuviz.net/hops.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "BeerJSONModel",
+  "description": "A simple schema to describe an inventory location. Shelf ",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "label": {
+      "type": "string"
+    },
+    "parentLocation": {
+      "type": "string"
+    }
+  },
+  "required": ["label"]
+}
