@@ -16,7 +16,7 @@
     "dependencies": {
         "ajv": "^6.5.4",
         "aws-sdk": "^2.329.0",
-        "beerschema-shared": "file:../shared",
+        "beerschema-shared": "file:../../shared",
         "traverse": "^0.6.6",
         "uuid": "^3.3.2"
     },
