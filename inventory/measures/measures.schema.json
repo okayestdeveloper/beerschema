@@ -14,7 +14,7 @@
     },
     "type": {
       "type": "string",
-      "enum": ["mass", "volume", "temperature", "other"]
+      "enum": ["mass", "volume", "other"]
     },
     "uom": {
       "type": "object",
@@ -22,20 +22,20 @@
         "label": {
           "type": "string",
           "enum": [
-            "Milliliter",
-            "Liter",
-            "Hectoliter",
-            "Gram",
-            "Kilogram",
-            "Each",
-            "Fluid Ounce",
-            "Cup",
-            "Pint",
-            "Quart",
-            "Gallon",
-            "Barrel",
-            "Ounce",
-            "Pound"
+            "milliliter",
+            "liter",
+            "hectoliter",
+            "gram",
+            "kilogram",
+            "each",
+            "fluid ounce",
+            "cup",
+            "pint",
+            "quart",
+            "gallon",
+            "barrel",
+            "ounce",
+            "pound"
           ]
         },
         "abbr": {
@@ -45,5 +45,5 @@
       }
     }
   },
-  "required": ["label"]
+  "required": ["label", "uom", "type"]
 }

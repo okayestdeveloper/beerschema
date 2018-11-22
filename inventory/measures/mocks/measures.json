@@ -1,0 +1,119 @@
+[
+  {
+    "label": "Each",
+    "type": "other",
+    "uom": {
+      "label": "each",
+      "abbr": "ea"
+    }
+  },
+  {
+    "label": "Bag",
+    "type": "other",
+    "uom": null
+  },
+  {
+    "label": "Milliliter",
+    "type": "volume",
+    "uom": {
+      "label": "millileter",
+      "abbr": "mL"
+    }
+  },
+  {
+    "label": "Liter",
+    "type": "volume",
+    "uom": {
+      "label": "liter",
+      "abbr": "L"
+    }
+  },
+  {
+    "label": "Hectoliter",
+    "type": "volume",
+    "uom": {
+      "label": "hectoliter",
+      "abbr": "hL"
+    }
+  },
+  {
+    "label": "Gram",
+    "type": "mass",
+    "uom": {
+      "label": "gram",
+      "abbr": "g"
+    }
+  },
+  {
+    "label": "Kilogram",
+    "type": "mass",
+    "uom": {
+      "label": "kilogram",
+      "abbr": "kg"
+    }
+  },
+  {
+    "label": "Fluid Ounce",
+    "type": "volume",
+    "uom": {
+      "label": "fluid ounce",
+      "abbr": "fl oz"
+    }
+  },
+  {
+    "label": "Cup",
+    "type": "volume",
+    "uom": {
+      "label": "Cup",
+      "abbr": "c"
+    }
+  },
+  {
+    "label": "Pint",
+    "type": "volume",
+    "uom": {
+      "label": "pint",
+      "abbr": "pt"
+    }
+  },
+  {
+    "label": "Quart",
+    "type": "volume",
+    "uom": {
+      "label": "quart",
+      "abbr": "qt"
+    }
+  },
+  {
+    "label": "Gallon",
+    "type": "volume",
+    "uom": {
+      "label": "gallon",
+      "abbr": "gal"
+    }
+  },
+  {
+    "label": "Barrel",
+    "type": "volume",
+    "uom": {
+      "label": "barrel",
+      "abbr": "bbl"
+    }
+  },
+  {
+    "label": "Ounce",
+    "type": "mass",
+    "uom": {
+      "label": "ounce",
+      "abbr": "oz"
+    }
+  },
+  {
+    "label": "Pound",
+    "type": "mass",
+    "uom": {
+      "label": "pound",
+      "abbr": "lb"
+    }
+  }
+]

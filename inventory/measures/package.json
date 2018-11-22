@@ -1,7 +1,7 @@
 {
-    "name": "beerschema-inventory-locations-api",
+    "name": "beerschema-inventory-measures-api",
     "version": "0.1.0",
-    "description": "The inventory locations portion of the beerschema API.",
+    "description": "The inventory measures portion of the beerschema API.",
     "main": "handler.js",
     "scripts": {
         "deploy": "sls deploy",
