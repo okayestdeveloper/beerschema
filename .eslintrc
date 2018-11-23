@@ -11,7 +11,7 @@
                 "code": 140
             }
         ],
-        "comma-dangle": 0,
+        "comma-dangle": ["error", "awlays-multiline"],
         "indent": [
             "error",
             2

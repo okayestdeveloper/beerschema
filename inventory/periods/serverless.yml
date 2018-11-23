@@ -64,7 +64,7 @@ functions:
       - http:
           method: delete
           path: periods/{id}
-# TODO:secondary index on "date" whatever the ends up being
+
 resources:
   Resources:
     BeerSchemaInventoryPeriodsTable:
@@ -74,12 +74,24 @@ resources:
         AttributeDefinitions:
         - AttributeName: "id"
           AttributeType: "S"
+        - AttributeName: "startDate"
+          AttributeType: "S"
         KeySchema:
         - AttributeName: "id"
           KeyType: "HASH"
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+        GlobalSecondaryIndexes:
+        - IndexName: start
+          KeySchema:
+          - AttributeName: startDate
+            KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+          ProvisionedThroughput:
+            ReadCapacityUnits: 1
+            WriteCapacityUnits: 1
 
 package:
   exclude:
