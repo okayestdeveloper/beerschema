@@ -1,0 +1,29 @@
+{
+    "name": "beerschema-inventory-vendors-api",
+    "version": "0.1.0",
+    "description": "The inventory vendors portion of the beerschema API.",
+    "main": "handler.js",
+    "scripts": {
+        "deploy": "sls deploy",
+        "lint": "../../node_modules/.bin/eslint -c ../../.eslintrc --fix ./"
+    },
+    "author": {
+        "name": "Brad Ledbetter",
+        "email": "brad.ledbetter@gmail.com"
+    },
+    "license": "UNLICENSED",
+    "devDependencies": {},
+    "dependencies": {
+        "ajv": "^6.5.4",
+        "aws-sdk": "^2.329.0",
+        "beerschema-shared": "file:../../shared",
+        "traverse": "^0.6.6",
+        "uuid": "^3.3.2"
+    },
+    "keywords": [
+        "beerschema"
+    ],
+    "engines": {
+        "node": ">=8.10.1"
+    }
+}
