@@ -23,6 +23,21 @@
             "type": "boolean",
             "default": false,
             "description": "A posted transaction cannot be edited."
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "itemId": {
+                "type": "string"
+              },
+              "operation": {
+                "type": "string",
+                "enum": ["-", "+", "="]
+              }
+            }
+          }
         }
     },
     "required": [
