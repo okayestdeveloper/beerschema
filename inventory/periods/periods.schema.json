@@ -5,7 +5,7 @@
     "description": "A simple schema to describe an inventory period.",
     "type": "object",
     "properties": {
-        "id": {
+        "periodId": {
             "type": "string"
         },
         "startDate": {
