@@ -9,7 +9,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -18,7 +18,7 @@
     "@vue/cli-plugin-babel": "^3.8.0",
     "@vue/cli-plugin-eslint": "^3.0.1",
     "@vue/cli-plugin-unit-mocha": "^3.0.1",
-    "@vue/cli-service": "^3.8.0",
+    "@vue/cli-service": "^4.2.3",
     "@vue/eslint-config-airbnb": "^3.0.5",
     "@vue/test-utils": "^1.0.0-beta.20",
     "chai": "^4.1.2",
